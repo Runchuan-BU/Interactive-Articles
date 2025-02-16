@@ -66,7 +66,12 @@ npm run dev
 
 ---
 
-[📺 Watch Demo Video](https://private-user-images.githubusercontent.com/118787783/413616931-98358b9c-0861-4103-b5d7-7a1659f41e57.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mzk3MTE4NTMsIm5iZiI6MTczOTcxMTU1MywicGF0aCI6Ii8xMTg3ODc3ODMvNDEzNjE2OTMxLTk4MzU4YjljLTA4NjEtNDEwMy1iNWQ3LTdhMTY1OWY0MWU1Ny5tcDQ_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjE2JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIxNlQxMzEyMzNaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04MWJkYzgyYTIzYWU2NzkyMjJhNTRiNDQ0MzI3ZDRmYjFjNzJhMWMxZTgzODQ2MzNkZTYwMGY5MjA0ODRmZGNjJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.FmrCob_DpgNK_LTgyDHyBwgOBwx1ARm0_J3KSTZXi2w))
+<p align="center">
+  <a href="https://private-user-images.githubusercontent.com/118787783/413616931-98358b9c-0861-4103-b5d7-7a1659f41e57.mp4">
+    <img src="https://img.shields.io/badge/🎥 Watch Demo Video-red?style=for-the-badge&logo=video" alt="Watch Demo Video">
+  </a>
+</p>
+
 
 
 ## **🛠️ Future Improvements**
