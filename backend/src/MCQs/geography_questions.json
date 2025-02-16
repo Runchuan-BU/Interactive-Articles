@@ -1,0 +1,26 @@
+{
+    "title": "Geography Quiz",
+    "mcqs": [
+      {
+        "question": "What is the capital of Japan?",
+        "options": ["Beijing", "Seoul", "Tokyo", ""],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Which is the longest river in the world?",
+        "options": ["Amazon", "Nile", "Yangtze", ""],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Mount Everest is located in which mountain range?",
+        "options": ["Rocky Mountains", "Himalayas", "Andes", ""],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which continent is the Sahara Desert in?",
+        "options": ["Asia", "Africa", "Australia", ""],
+        "correctAnswer": 1
+      }
+    ]
+  }
+  

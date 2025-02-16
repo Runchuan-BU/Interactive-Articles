@@ -1,0 +1,26 @@
+{
+    "title": "History Quiz",
+    "mcqs": [
+      {
+        "question": "Who was the first President of the United States?",
+        "options": ["Abraham Lincoln", "George Washington", "John Adams", ""],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which year did World War II end?",
+        "options": ["1942", "1945", "1950", ""],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The Great Wall of China was primarily built to protect against which group?",
+        "options": ["Romans", "Mongols", "Vikings", ""],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which ancient civilization built the pyramids?",
+        "options": ["Romans", "Greeks", "Egyptians", ""],
+        "correctAnswer": 2
+      }
+    ]
+  }
+  

@@ -1,0 +1,26 @@
+{
+  "title": "General Knowledge Quiz",
+  "timestamp": "2025-02-16T11:27:08.450Z",
+  "answers": [
+    {
+      "question": "Which is the largest ocean on Earth?",
+      "selectedOption": 0,
+      "isCorrect": false
+    },
+    {
+      "question": "Who wrote 'Romeo and Juliet'?",
+      "selectedOption": 0,
+      "isCorrect": false
+    },
+    {
+      "question": "Which company created the iPhone?",
+      "selectedOption": 0,
+      "isCorrect": false
+    },
+    {
+      "question": "How many continents are there?",
+      "selectedOption": 1,
+      "isCorrect": false
+    }
+  ]
+}

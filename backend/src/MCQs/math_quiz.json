@@ -1,0 +1,25 @@
+{
+  "title": "math_quiz",
+  "mcqs": [
+    {
+      "question": "What is 5 + 3?",
+      "options": ["6", "7", "8", "9"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "What is the square root of 16?",
+      "options": ["2", "4", "8", ""],
+      "correctAnswer": 1
+    },
+    {
+      "question": "Which number is a prime number?",
+      "options": ["4", "9", "7", ""],
+      "correctAnswer": 2
+    },
+    {
+      "question": "What is 10 divided by 2?",
+      "options": ["4", "5", "6", ""],
+      "correctAnswer": 1
+    }
+  ]
+}
