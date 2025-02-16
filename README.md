@@ -15,7 +15,7 @@ cd backend
 npm install
 
 # Install frontend dependencies
-cd ../frontend
+cd frontend
 npm install
 ```
 
@@ -73,6 +73,5 @@ npm run dev
 
 ---
 
-This project is designed to demonstrate the capabilities of an interactive learning platform with MCQ support. Contributions and feedback are welcome! 🚀🎯
 
 
