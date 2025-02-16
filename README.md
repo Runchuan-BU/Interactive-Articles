@@ -6,7 +6,7 @@ This project is an interactive article platform that allows users to create, edi
 
 
 <p align="center">
-  <a href="https://private-user-images.githubusercontent.com/118787783/413617536-96825b1c-1578-4a50-9cd9-a957b5984f07.mp4">
+  <a href="[https://private-user-images.githubusercontent.com/118787783/413617536-96825b1c-1578-4a50-9cd9-a957b5984f07.mp4](https://github.com/Runchuan-BU/Runchuan-BU/issues/1#issue-2856099335)">
     <img src="https://img.shields.io/badge/🎥 Watch Demo Video-red?style=for-the-badge&logo=video" alt="Watch Demo Video">
   </a>
 </p>
