@@ -1,26 +1,28 @@
 {
   "title": "General Knowledge Quiz",
-  "timestamp": "2025-02-16T11:27:08.450Z",
+  "timestamp": "2025-02-24T11:14:52.025Z",
   "answers": [
     {
-      "question": "Which is the largest ocean on Earth?",
-      "selectedOption": 0,
-      "isCorrect": false
+      "question": "What is the capital of France?",
+      "type": "mcq",
+      "selectedOption": 2,
+      "isCorrect": true
     },
     {
-      "question": "Who wrote 'Romeo and Juliet'?",
-      "selectedOption": 0,
-      "isCorrect": false
+      "question": "Describe your favorite hobby.",
+      "type": "frq",
+      "answer": "football"
     },
     {
-      "question": "Which company created the iPhone?",
-      "selectedOption": 0,
-      "isCorrect": false
-    },
-    {
-      "question": "How many continents are there?",
+      "question": "Which of the following animals is a mammal?",
+      "type": "mcq",
       "selectedOption": 1,
-      "isCorrect": false
+      "isCorrect": true
+    },
+    {
+      "question": "What is your favorite type of music and why? ",
+      "type": "frq",
+      "answer": "r and b"
     }
   ]
 }

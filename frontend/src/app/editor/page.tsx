@@ -1,3 +1,5 @@
+// editor page
+
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -9,17 +11,6 @@ export default function EditorPage() {
   const router = useRouter();
   const [content, setContent] = useState('');
 
-  // const handleSave = async () => {
-  //   const response = await fetch('http://localhost:5000/api/articles', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ content }),
-  //   });
-
-  //   if (response.ok) {
-  //     alert('Article saved!');
-  //   }
-  // };
 
   return (
     <div className="min-h-screen flex flex-col items-center p-10 bg-gray-100">
@@ -34,5 +25,3 @@ export default function EditorPage() {
     </div>
   );
 }
-
-

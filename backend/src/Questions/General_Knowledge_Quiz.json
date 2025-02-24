@@ -1,0 +1,37 @@
+{
+  "title": "General Knowledge Quiz",
+  "questions": [
+    {
+      "type": "mcq",
+      "question": "What is the capital of France?",
+      "options": [
+        "A) Berlin",
+        "B) Madrid",
+        "C) Paris",
+        "D) Rome"
+      ],
+      "correctAnswer": 2
+    },
+    {
+      "type": "frq",
+      "question": "Describe your favorite hobby.",
+      "example_answer": "Explain what you enjoy doing in your free time and why."
+    },
+    {
+      "type": "mcq",
+      "question": "Which of the following animals is a mammal?",
+      "options": [
+        "A) Shark",
+        "B) Dolphin",
+        "C) Crocodile",
+        "D) Eagle"
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "type": "frq",
+      "question": "What is your favorite type of music and why? ",
+      "example_answer": "Write about your favorite music genre and how it makes you feel."
+    }
+  ]
+}

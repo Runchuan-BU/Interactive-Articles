@@ -12,9 +12,9 @@ app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000' })); 
 
 // data path
-const MCQ_Dir = path.join(__dirname, 'MCQs');
-if (!fs.existsSync(MCQ_Dir)) {
-    fs.mkdirSync(MCQ_Dir, { recursive: true });
+const question_Dir = path.join(__dirname, 'Questions');
+if (!fs.existsSync(question_Dir)) {
+    fs.mkdirSync(question_Dir, { recursive: true });
 }
 const answer_Dir = path.join(__dirname, 'Answer');
 if (!fs.existsSync(answer_Dir)) {
@@ -23,59 +23,39 @@ if (!fs.existsSync(answer_Dir)) {
 
 ///////////editor ending points///////////
 
-app.post('/mcq/save', (req, res) => {
-    const { title, mcqs } = req.body;
+app.post('/questions/save', (req, res) => {
+    const { title, questions = [] } = req.body; 
 
-    // if (!title || !mcqs) {
-    //         return res.status(400).json({ error: 'Title and MCQs are required' });
-    //     }
+    // if (!title || questions.length === 0) {
+    //     return res.status(400).json({ error: 'Title and at least one question are required' });
+    // }
+
     const sanitizedTitle = title.replace(/[^a-zA-Z0-9_-]/g, '_'); 
-    const filePath = path.join(MCQ_Dir, `${sanitizedTitle}.json`);
+    const filePath = path.join(question_Dir, `${sanitizedTitle}.json`);
 
-    fs.writeFile(filePath, JSON.stringify({ title, mcqs }, null, 2), (err) => {
+    fs.writeFile(filePath, JSON.stringify({ title, questions }, null, 2), (err) => {
         if (err) {
             console.error('Error saving file:', err);
-              return res.status(500).json({ error: 'Failed to save MCQs' });
-          }
-        res.status(200).json({ message: 'MCQs saved successfully', file: filePath });
+            return res.status(500).json({ error: 'Failed to save questions' });
+        }
+        res.status(200).json({ message: 'Questions saved successfully', file: filePath });
     });
-
 });
+
+
 
 
 
 
 ///////////viewer ending points///////////
 
-// let mcqData = {
-//     title: "Sample MCQs",
-//     mcqs: [
-//         {
-//             question: "What is the capital of France?",
-//             options: ["Berlin", "Madrid", "Paris", "Rome"],
-//             correctAnswer: 2
-//         },
-//         {
-//             question: "Which planet is known as the Red Planet?",
-//             options: ["Earth", "Mars", "Jupiter", "Venus"],
-//             correctAnswer: 1
-//         }
-//     ]
-// };
-
-// app.get('/mcq/test', (req, res) => {
-//     console.log('mcqData:', mcqData);
-//     res.json(mcqData);
-// });
-
-app.get('/mcq/view-all', (req, res) => {
-    fs.readdir(MCQ_Dir, (err, files) => {
+app.get('/questions/view-all', (req, res) => {
+    fs.readdir(question_Dir, (err, files) => {
         if (err) {
             console.error("Error reading directory:", err);
             return res.status(500).json({ error: "Failed to read MCQ directory" });
         }
 
-        // 过滤 JSON 文件，并去掉 `.json` 后缀以返回 `title`
         const titles = files
             .filter(file => file.endsWith('.json'))
             .map(file => file.replace('.json', ''));
@@ -85,15 +65,15 @@ app.get('/mcq/view-all', (req, res) => {
 });
 
 
-app.get('/mcq/view', (req, res) => {
-    const { title } = req.query; // 从 URL 参数中获取 title
+app.get('/questions/view', (req, res) => {
+    const { title } = req.query; 
 
     // if (!title) {
     //     return res.status(400).json({ error: "Title query parameter is required" });
     // }
 
-    const sanitizedTitle = (title as string).replace(/[^a-zA-Z0-9_-]/g, '_'); // 过滤非法字符
-    const filePath = path.join(MCQ_Dir, `${sanitizedTitle}.json`);
+    const sanitizedTitle = (title as string).replace(/[^a-zA-Z0-9_-]/g, '_');
+    const filePath = path.join(question_Dir, `${sanitizedTitle}.json`);
 
     // if (!fs.existsSync(filePath)) {
     //     return res.status(404).json({ error: "MCQ file not found" });
@@ -106,8 +86,8 @@ app.get('/mcq/view', (req, res) => {
         }
 
         try {
-            const mcqData = JSON.parse(data); // 解析 JSON 数据
-            res.status(200).json(mcqData);
+            const questionData = JSON.parse(data); 
+            res.status(200).json(questionData);
         } catch (parseErr) {
             console.error("Error parsing JSON:", parseErr);
             res.status(500).json({ error: "Invalid JSON format in file" });
@@ -115,7 +95,7 @@ app.get('/mcq/view', (req, res) => {
     });
 });
 
-app.post('/mcq/save-answers', (req, res) => {
+app.post('/questions/save-answers', (req, res) => {
     const { title, answers } = req.body;
 
     // if (!title || !Array.isArray(answers)) {
@@ -148,26 +128,45 @@ const openai = new OpenAI({
 });
 
 // AI Analysis API Endpoint
-app.post('/mcq/analysis', async (req, res) => {
-    const { title, mcqs } = req.body;
+app.post('/questions/analysis', async (req, res) => {
+    const { title, questions } = req.body; 
 
-    // if (!title || !Array.isArray(mcqs) || mcqs.length === 0) {
-    //     return res.status(400).json({ error: 'Title and valid MCQs are required' });
+    // if (!title || !Array.isArray(questions) || questions.length === 0) {
+    //     return res.status(400).json({ error: 'Title and valid questions are required' });
     // }
 
     try {
-        // Generate AI analysis for each question
-        const analysisPromises = mcqs.map(async (mcq: { question: any; options: any[]; }) => {
-            const prompt = `
-            You are an expert AI tutor. Analyze the following multiple-choice question and provide an insightful explanation.
+        // 生成 AI 解析
+        const analysisPromises = questions.map(async (question: { type: string; question: string; options?: string[] }) => {
+            let prompt = '';
 
-            Your answer must be in 70 words or less, which is very important.
+            if (question.type === 'mcq') {
+                
+                prompt = `
+                You are an expert AI tutor. Analyze the following multiple-choice question and provide an insightful explanation.
 
-            **Question**: ${mcq.question}
-            **Options**: ${mcq.options.join(', ')}
+                Your answer must be in 70 words or less.
 
-            Provide a very short analysis explaining what concept this question is testing and which option is correct with a brief explanation.
-            `;
+                **Question**: ${question.question}
+                **Options**: ${question.options ? question.options.join(', ') : 'No options available'}
+
+
+                Provide a short analysis explaining what concept this question is testing and which option is correct with a brief explanation.
+                `;
+            } else if (question.type === 'frq') {
+
+                prompt = `
+                You are an expert AI tutor. Analyze the following open-ended question and provide guidance on how to answer it effectively.
+
+                Your response must be in 70 words or less.
+
+                **Question**: ${question.question}
+
+                Provide a short analysis explaining what key concepts or structure the answer should include.
+                `;
+            } else {
+                return 'Invalid question type.';
+            }
 
             const response = await openai.chat.completions.create({
                 model: 'gpt-3.5-turbo',
@@ -180,7 +179,13 @@ app.post('/mcq/analysis', async (req, res) => {
 
         const analysisResults = await Promise.all(analysisPromises);
 
-        res.status(200).json(analysisResults);
+        const formattedResults = questions.map((q: { type: string; question: string }, index: number) => ({
+            question: q.question,
+            type: q.type, 
+            analysis: analysisResults[index],
+        }));
+
+        res.status(200).json(formattedResults);
     } catch (error) {
         console.error('Error generating AI analysis:', error);
         res.status(500).json({ error: 'Failed to generate AI analysis' });

@@ -1,3 +1,5 @@
+// Viewer Page Component
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -11,34 +13,50 @@ export default function ViewerPage() {
   const searchParams = useSearchParams();
   const title = searchParams.get('title');
 
+  // State to store available quiz titles
   const [titles, setTitles] = useState<string[]>([]);
+  // State to store the selected quiz content
   const [content, setContent] = useState<any | null>(null);
+  // Loading state for fetching data
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Fetch all MCQ titles
+  /**
+   * Fetch all quiz titles from the backend
+   */
   useEffect(() => {
-    fetch('http://localhost:5000/mcq/view-all')
+    fetch('http://localhost:5000/questions/view-all')
       .then((res) => res.json())
       .then((data) => {
-        console.log('View all MCQs:', data.titles);
+        console.log('View all questions:', data.titles);
         setTitles(data.titles || []);
       })
-      .catch((err) => console.error('Loading MCQ list failed:', err));
+      .catch((err) => console.error('Loading questions list failed:', err));
   }, []);
 
-  // Load selected MCQ
+  /**
+   * Fetch the selected quiz data based on the title from URL parameters
+   */
   useEffect(() => {
     if (!title) return;
 
     setLoading(true);
-    fetch(`http://localhost:5000/mcq/view?title=${encodeURIComponent(title)}`)
+    fetch(`http://localhost:5000/questions/view?title=${encodeURIComponent(title)}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(`title ${title} data:`, data);
-        setContent(data);
+
+        if (data.questions) {
+          // Ensure questions are extracted and preserved in their original order
+          setContent({
+            title: data.title,
+            questions: data.questions, // Keep the original mixed order of MCQs and FRQs
+          });
+        } else {
+          setContent(null);
+        }
       })
       .catch((err) => {
-        console.error(`get ${title} data failed:`, err);
+        console.error(`Failed to get data for title ${title}:`, err);
         setContent(null);
       })
       .finally(() => setLoading(false));
@@ -49,10 +67,11 @@ export default function ViewerPage() {
       <Card className="max-w-3xl mx-auto bg-white shadow-md">
         <CardHeader>
           <CardTitle className="text-gray-900">
-            {title ? `View MCQs - ${title}` : 'Select a Quiz'}
+            {title ? `View Questions - ${title}` : 'Select a Quiz'}
           </CardTitle>
         </CardHeader>
         <CardContent>
+          {/* If no title is selected, show the list of available quizzes */}
           {!title ? (
             <div className="space-y-4">
               {titles.length > 0 ? (
@@ -66,16 +85,19 @@ export default function ViewerPage() {
                   </button>
                 ))
               ) : (
-                <p className="text-gray-800">No MCQ data</p>
+                <p className="text-gray-800">No quizzes available</p>
               )}
             </div>
           ) : loading ? (
             <p className="text-gray-800">Loading...</p>
           ) : content ? (
+            // Pass the retrieved content (including MCQs and FRQs) to the viewer
             <TiptapViewer content={content} />
           ) : (
-            <p className="text-gray-800">No MCQs</p>
+            <p className="text-gray-800">No questions found</p>
           )}
+
+          {/* Navigation buttons */}
           <div className="mt-4 flex gap-2">
             <Button variant="outline" onClick={() => router.push('/')}>Back to Home</Button>
             {title && <Button variant="outline" onClick={() => router.push('/viewer')}>Back to List</Button>}
@@ -85,4 +107,5 @@ export default function ViewerPage() {
     </div>
   );
 }
+
 
