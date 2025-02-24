@@ -1,9 +1,12 @@
+// Tiptap Editor component
+
 'use client';
 
 import { useEffect, useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import { Node } from '@tiptap/core';
 import MCQNode from './extensions/MCQNode';
+import FRQNode from './extensions/FRQNode';
 import Button from '@/components/ui/button';
 
 // TextNode
@@ -16,7 +19,7 @@ const TextNode = Node.create({
 const DocumentNode = Node.create({
   name: 'doc',
   topNode: true, 
-  content: 'mcq*', // only allow MCQ nodes
+  content: '(mcq | frq)*', // Allow both MCQ and FRQ
 });
 
 interface TiptapEditorProps {
@@ -32,12 +35,13 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({ content, setContent }) => {
     setIsClient(true);
   }, []);
 
+  // Initialize the editor
   const editor = useEditor({
     immediatelyRender: false,
-    extensions: [DocumentNode, TextNode, MCQNode], 
+    extensions: [DocumentNode, TextNode, MCQNode, FRQNode], 
     content,
     onUpdate: ({ editor }) => {
-      setContent(editor.getHTML()); // update content
+      setContent(editor.getHTML()); // Update content state
     },
     editorProps: {
       handleKeyDown: () => true, 
@@ -48,13 +52,14 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({ content, setContent }) => {
     return <p>Loading editor...</p>;
   }
 
+  // Add an MCQ block
   const addMCQBlock = () => {
     if (!editor) return;
   
     editor
       .chain()
       .focus()
-      .insertContentAt(editor.state.doc.content.size, { // from end of doc
+      .insertContentAt(editor.state.doc.content.size, { 
         type: 'mcq',
         attrs: {
           question: '',
@@ -64,41 +69,68 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({ content, setContent }) => {
       })
       .run();
   };
-  
 
-  // get all MCQs
-  const extractMCQs = () => {
+  // Add an FRQ block
+  const addFRQBlock = () => {
+    if (!editor) return;
+  
+    editor
+      .chain()
+      .focus()
+      .insertContentAt(editor.state.doc.content.size, {
+        type: 'frq',
+        attrs: {
+          question: '',
+          example_answer: '',
+        },
+      })
+      .run();
+  };
+
+  // Extract all questions (MCQs and FRQs) while maintaining order
+  const extractQuestions = () => {
     if (!editor) return [];
 
-    const mcqNodes: any[] = [];
+    const questions: any[] = [];
     editor.state.doc.descendants((node) => {
-      if (node.type.name === 'mcq') {
-        mcqNodes.push(node.attrs);
+      if (node.type.name === 'mcq' || node.type.name === 'frq') {
+        questions.push({ type: node.type.name, ...node.attrs }); // Store type to maintain order
       }
     });
 
-    return mcqNodes;
+    console.log("Extracted Questions (Ordered):", questions); // Debugging
+    return questions;
   };
-  // save MCQs
+
+  // Save questions
   const saveContent = () => {
-    const mcqData = extractMCQs(); 
+    const questionData = extractQuestions();
+
+    // Prevent saving if there are no questions
+    if (questionData.length === 0) {
+      alert("Please add at least one question before saving.");
+      return;
+    }
+
     const data = {
-      title: title.trim(), 
-      mcqs: mcqData, 
+      title: title.trim(),
+      questions: questionData, // Preserve order
     };
-  
-    console.log('Saving:', JSON.stringify(data, null, 2)); 
-    alert(`Saved Data:\n${JSON.stringify(data, null, 2)}`); 
-  
-    fetch('http://localhost:5000/mcq/save', {
+
+    console.log('Saving:', JSON.stringify(data, null, 2));
+    alert(`Saved Data:\n${JSON.stringify(data, null, 2)}`);
+
+    fetch('http://localhost:5000/questions/save', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then(() => {
-      alert('Title & MCQs saved successfully!');
+      alert('Title & Questions saved successfully!');
+    }).catch((error) => {
+      console.error("Error saving data:", error);
+      alert("Failed to save questions.");
     });
   };
-  
 
   return (
     <div className="border rounded-lg p-4 bg-white">
@@ -111,20 +143,19 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({ content, setContent }) => {
         placeholder="Enter title..."
       />
 
+      {/* Editor Content */}
       <EditorContent editor={editor} className="w-full min-h-[10px]" />
 
-
+      {/* Buttons */}
       <div className="flex gap-2 mb-2">
         <Button onClick={addMCQBlock}>Add MCQ</Button>
-        <Button onClick={saveContent} className="bg-green-500">
-          Submit
-        </Button>
+        <Button onClick={addFRQBlock} className="bg-blue-500">Add FRQ</Button>
+        <Button onClick={saveContent} className="bg-green-500">Submit</Button>
       </div>
-      
-      
     </div>
   );
 };
 
 export default TiptapEditor;
+
 

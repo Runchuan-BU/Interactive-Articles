@@ -1,3 +1,5 @@
+// mutiple choice question node
+
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer, NodeViewWrapper } from '@tiptap/react';
 import { useState, useMemo } from 'react';
@@ -70,7 +72,7 @@ const MCQNode = Node.create({
     return {
       question: { default: '' },
       options: { default: ['Option 1', 'Option 2', 'Option 3', 'Option 4'] },
-      correctAnswer: { default: 0 },
+      correctAnswer: { default: -1 },
     };
   },
 
