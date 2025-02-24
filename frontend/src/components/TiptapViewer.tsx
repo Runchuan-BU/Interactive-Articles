@@ -77,13 +77,13 @@ const TiptapViewer: React.FC<TiptapViewerProps> = ({ content }) => {
       answers: safeQuestions.map((q, index) => {
         if (q.type === 'mcq') {
           if (selectedAnswers[index] === -1) {
-            return { question: q.question, type: q.type }; // ✅ 未选择答案，不存 `isCorrect`
+            return { question: q.question, type: q.type }; 
           }
           return {
             question: q.question,
             type: q.type,
             selectedOption: selectedAnswers[index],
-            isCorrect: selectedAnswers[index] === q.correctAnswer, // ✅ 确保 `selectedOption` 存在
+            isCorrect: selectedAnswers[index] === q.correctAnswer, 
           };
         }
   
@@ -91,12 +91,12 @@ const TiptapViewer: React.FC<TiptapViewerProps> = ({ content }) => {
           return {
             question: q.question,
             type: q.type,
-            answer: frqAnswers[index] !== '' ? frqAnswers[index] : undefined, // ✅ 为空则不存
+            answer: frqAnswers[index] !== '' ? frqAnswers[index] : undefined, 
           };
         }
   
         return {};
-      }).filter(item => Object.keys(item).length > 1) // ✅ 过滤无效数据
+      }).filter(item => Object.keys(item).length > 1) 
     };
   
     try {

@@ -1,17 +1,14 @@
 {
   "title": "General Knowledge Quiz",
-  "timestamp": "2025-02-24T11:14:52.025Z",
+  "timestamp": "2025-02-24T11:35:42.858Z",
   "answers": [
     {
       "question": "What is the capital of France?",
-      "type": "mcq",
-      "selectedOption": 2,
-      "isCorrect": true
+      "type": "mcq"
     },
     {
       "question": "Describe your favorite hobby.",
-      "type": "frq",
-      "answer": "football"
+      "type": "frq"
     },
     {
       "question": "Which of the following animals is a mammal?",
@@ -21,8 +18,7 @@
     },
     {
       "question": "What is your favorite type of music and why? ",
-      "type": "frq",
-      "answer": "r and b"
+      "type": "frq"
     }
   ]
 }

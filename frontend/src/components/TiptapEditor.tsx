@@ -148,8 +148,8 @@ const TiptapEditor: React.FC<TiptapEditorProps> = ({ content, setContent }) => {
 
       {/* Buttons */}
       <div className="flex gap-2 mb-2">
-        <Button onClick={addMCQBlock}>Add MCQ</Button>
-        <Button onClick={addFRQBlock} className="bg-blue-500">Add FRQ</Button>
+        <Button onClick={addMCQBlock} className="bg-blue-500">Add Multiple Choice Question</Button>
+        <Button onClick={addFRQBlock} className="bg-blue-500">Add Free Response Question</Button>
         <Button onClick={saveContent} className="bg-green-500">Submit</Button>
       </div>
     </div>
